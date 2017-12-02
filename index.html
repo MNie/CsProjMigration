@@ -1,0 +1,439 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Migration to new project file format</title>
+    <meta name="description" content="Migration to new csproj/fsproj">
+    <meta name="author" content="Michał Niegrzybowski">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="//code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="//code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/league.css" id="theme">
+    <link type="text/css" rel="stylesheet" href="fsharp.formatting/styles/style.css" />
+    <link type="text/css" rel="stylesheet" href="fsharp.formatting/styles/deedle.css" />
+    <link type="text/css" rel="stylesheet" href="css/custom.css" />
+    <script src="fsharp.formatting/styles/tips.js" type="text/javascript"></script>
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <link rel="stylesheet" href="css/fsreveal.css">
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+    </script>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+    <script language="javascript" type="text/javascript">
+        function init()
+        {
+            websocket = new WebSocket("ws://"+window.location.host+"/websocket");
+            websocket.onmessage = function(evt) { location.reload(); };
+        }
+        window.addEventListener("load", init, false);
+    </script>
+</head>
+<body>
+    <div class="reveal">
+        
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
+            <section >
+<section >
+<h2>New project file format</h2>
+</section>
+<section >
+<h2>Why?</h2>
+<ul>
+<li>how reference .net standard libs in .net framework project?</li>
+<li><a href="https://github.com/dotnet/standard/issues/410">dotnet issue</a></li>
+</ul>
+</section>
+<section >
+<h2>What it looked like</h2>
+<img src="images/olds.png" style="background: white;" width=1700 />
+</section>
+<section >
+<h2>What it looks like</h2>
+<img src="images/nwe.png" style="background: white;" width=400 />
+</section>
+<section >
+<h2>Migration</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="xml"><span class="k">&lt;</span><span class="i">Project</span> <span class="o">Sdk</span><span class="k">="Microsoft.NET.Sdk"</span><span class="k">&gt;</span>
+  <span class="k">&lt;</span><span class="i">PropertyGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">TargetFramework</span><span class="k">&gt;</span>net462<span class="k">&lt;/</span><span class="i">TargetFramework</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">RootNamespace</span><span class="k">&gt;</span>DD.Database<span class="k">&lt;/</span><span class="i">RootNamespace</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">AssemblyName</span><span class="k">&gt;</span>DD.Database<span class="k">&lt;/</span><span class="i">AssemblyName</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">Name</span><span class="k">&gt;</span>DD.Database<span class="k">&lt;/</span><span class="i">Name</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">OutputType</span><span class="k">&gt;</span>Library<span class="k">&lt;/</span><span class="i">OutputType</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">AppDesignerFolder</span><span class="k">&gt;</span>Properties<span class="k">&lt;/</span><span class="i">AppDesignerFolder</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">GenerateAssemblyInfo</span><span class="k">&gt;</span>false<span class="k">&lt;/</span><span class="i">GenerateAssemblyInfo</span><span class="k">&gt;</span>
+  <span class="k">&lt;/</span><span class="i">PropertyGroup</span><span class="k">&gt;</span>
+
+  <span class="k">&lt;</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">Compile</span> <span class="o">Include</span><span class="k">="..\GlobalAssemblyInfo.cs"</span><span class="k">&gt;</span>
+      <span class="k">&lt;</span><span class="i">Link</span><span class="k">&gt;</span>Properties\GlobalAssemblyInfo.cs<span class="k">&lt;/</span><span class="i">Link</span><span class="k">&gt;</span>
+    <span class="k">&lt;/</span><span class="i">Compile</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">Compile</span> <span class="o">Include</span><span class="k">="..\VersionInfo.cs"</span><span class="k">&gt;</span>
+      <span class="k">&lt;</span><span class="i">Link</span><span class="k">&gt;</span>Properties\VersionInfo.cs<span class="k">&lt;/</span><span class="i">Link</span><span class="k">&gt;</span>
+    <span class="k">&lt;/</span><span class="i">Compile</span><span class="k">&gt;</span>
+  <span class="k">&lt;/</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+
+  <span class="k">&lt;</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">PackageReference</span> <span class="o">Include</span><span class="k">="Util.Lib"</span> <span class="o">Version</span><span class="k">="1.0.0.*"</span> <span class="k">/&gt;</span>
+  <span class="k">&lt;/</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+
+  <span class="k">&lt;</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">ProjectReference</span> <span class="o">Include</span><span class="k">="..\OtherProjectInSln.csproj"</span> <span class="k">/&gt;</span>
+  <span class="k">&lt;/</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+
+  <span class="k">&lt;</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">Reference</span> <span class="o">Include</span>="<span class="o">Reference</span> <span class="o">to</span> <span class="o">some</span> <span class="o">windows</span> <span class="o">libs</span> <span class="k">/&gt;</span>
+  <span class="k">&lt;/</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+<span class="k">&lt;/</span><span class="i">Project</span><span class="k">&gt;</span>
+</code></pre></td></tr></table>
+</section>
+</section>
+<section >
+<section >
+<h2>pros</h2>
+</section>
+<section >
+<h2>readability</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+<span class="l">32: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="xml"><span class="k">&lt;</span><span class="i">Project</span> <span class="o">Sdk</span><span class="k">="Microsoft.NET.Sdk"</span><span class="k">&gt;</span>
+  <span class="k">&lt;</span><span class="i">PropertyGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">TargetFramework</span><span class="k">&gt;</span>net462<span class="k">&lt;/</span><span class="i">TargetFramework</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">RootNamespace</span><span class="k">&gt;</span>DD.Database<span class="k">&lt;/</span><span class="i">RootNamespace</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">AssemblyName</span><span class="k">&gt;</span>DD.Database<span class="k">&lt;/</span><span class="i">AssemblyName</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">Name</span><span class="k">&gt;</span>DD.Database<span class="k">&lt;/</span><span class="i">Name</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">OutputType</span><span class="k">&gt;</span>Library<span class="k">&lt;/</span><span class="i">OutputType</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">AppDesignerFolder</span><span class="k">&gt;</span>Properties<span class="k">&lt;/</span><span class="i">AppDesignerFolder</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">GenerateAssemblyInfo</span><span class="k">&gt;</span>false<span class="k">&lt;/</span><span class="i">GenerateAssemblyInfo</span><span class="k">&gt;</span>
+  <span class="k">&lt;/</span><span class="i">PropertyGroup</span><span class="k">&gt;</span>
+
+  <span class="k">&lt;</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">Compile</span> <span class="o">Include</span><span class="k">="..\GlobalAssemblyInfo.cs"</span><span class="k">&gt;</span>
+      <span class="k">&lt;</span><span class="i">Link</span><span class="k">&gt;</span>Properties\GlobalAssemblyInfo.cs<span class="k">&lt;/</span><span class="i">Link</span><span class="k">&gt;</span>
+    <span class="k">&lt;/</span><span class="i">Compile</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">Compile</span> <span class="o">Include</span><span class="k">="..\VersionInfo.cs"</span><span class="k">&gt;</span>
+      <span class="k">&lt;</span><span class="i">Link</span><span class="k">&gt;</span>Properties\VersionInfo.cs<span class="k">&lt;/</span><span class="i">Link</span><span class="k">&gt;</span>
+    <span class="k">&lt;/</span><span class="i">Compile</span><span class="k">&gt;</span>
+  <span class="k">&lt;/</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+
+  <span class="k">&lt;</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">PackageReference</span> <span class="o">Include</span><span class="k">="Castle.Common.Lang"</span> <span class="o">Version</span><span class="k">="1.0.0.*"</span> <span class="k">/&gt;</span>
+  <span class="k">&lt;/</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+
+  <span class="k">&lt;</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">ProjectReference</span> <span class="o">Include</span><span class="k">="..\OtherProjectInSln.csproj"</span> <span class="k">/&gt;</span>
+  <span class="k">&lt;/</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+
+  <span class="k">&lt;</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">Reference</span> <span class="o">Include</span>="<span class="o">Reference</span> <span class="o">to</span> <span class="o">some</span> <span class="o">windows</span> <span class="o">libs</span> <span class="k">/&gt;</span>
+  <span class="k">&lt;/</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+<span class="k">&lt;/</span><span class="i">Project</span><span class="k">&gt;</span>
+</code></pre></td></tr></table>
+</section>
+<section >
+<h2>length</h2>
+<img src="images/length.png" style="background: white;" width=1700 />
+</section>
+<section >
+<h2>ability to specify not concrete version</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="xml">  <span class="k">&lt;</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">PackageReference</span> <span class="o">Include</span><span class="k">="Newtonsoft.Json"</span> <span class="o">Version</span><span class="k">="6.0.*"</span> <span class="k">/&gt;</span>
+  <span class="k">&lt;/</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+</code></pre></td></tr></table>
+</section>
+<section >
+<h2>package information in one place</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="xml">  <span class="k">&lt;</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">PackageReference</span> <span class="o">Include</span><span class="k">="Newtonsoft.Json"</span> <span class="o">Version</span><span class="k">="6.0.*"</span> <span class="k">/&gt;</span>
+  <span class="k">&lt;/</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+</code></pre></td></tr></table>
+</section>
+<section >
+<h2>we don't have to unload project</h2>
+<img src="images/unload.png" style="background: white;" width=1700 />
+</section>
+<section >
+<h2>automatic detection of cycles</h2>
+<img src="images/cycle.png" style="background: white;" width=1700 />
+</section>
+<section >
+<h2>automatic detection of package(s) downgrade</h2>
+<img src="images/downgrade.png" style="background: white;" width=1700 />
+</section>
+<section >
+<h2>we don't have to specify all files included</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+<span class="l">5: </span>
+<span class="l">6: </span>
+<span class="l">7: </span>
+<span class="l">8: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="xml"><span class="k">&lt;</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">Compile</span> <span class="o">Include</span><span class="k">="..\GlobalAssemblyInfo.cs"</span><span class="k">&gt;</span>
+        <span class="k">&lt;</span><span class="i">Link</span><span class="k">&gt;</span>Properties\GlobalAssemblyInfo.cs<span class="k">&lt;/</span><span class="i">Link</span><span class="k">&gt;</span>
+    <span class="k">&lt;/</span><span class="i">Compile</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">Compile</span> <span class="o">Include</span><span class="k">="..\VersionInfo.cs"</span><span class="k">&gt;</span>
+        <span class="k">&lt;</span><span class="i">Link</span><span class="k">&gt;</span>Properties\VersionInfo.cs<span class="k">&lt;/</span><span class="i">Link</span><span class="k">&gt;</span>
+    <span class="k">&lt;/</span><span class="i">Compile</span><span class="k">&gt;</span>
+<span class="k">&lt;/</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+</code></pre></td></tr></table>
+</section>
+<section >
+<h2>easy migrate to .net core</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="xml"><span class="k">&lt;</span><span class="i">PropertyGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">TargetFramework</span><span class="k">&gt;</span>net462;netstandard2.0<span class="k">&lt;/</span><span class="i">TargetFramework</span><span class="k">&gt;</span>
+<span class="k">&lt;/</span><span class="i">PropertyGroup</span><span class="k">&gt;</span>
+</code></pre></td></tr></table>
+</section>
+<section >
+<h2>generate nuget package throw visual studio</h2>
+<img src="images/generate.png" style="background: white;" width=1700 />
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="xml"><span class="k">&lt;</span><span class="i">PropertyGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">GeneratePackageOnBuild</span><span class="k">&gt;</span>true<span class="k">&lt;/</span><span class="i">GeneratePackageOnBuild</span><span class="k">&gt;</span>
+<span class="k">&lt;/</span><span class="i">PropertyGroup</span><span class="k">&gt;</span>
+</code></pre></td></tr></table>
+</section>
+<section >
+<h2>packages in one place</h2>
+<ul>
+<li>all packages are located in .nuget folder</li>
+<li>packages are not downloaded per solution</li>
+</ul>
+</section>
+</section>
+<section >
+<section >
+<h2>problems</h2>
+</section>
+<section >
+<h2>automatic generation of assembly info</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="xml"><span class="k">&lt;</span><span class="i">PropertyGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">GenerateAssemblyInfo</span><span class="k">&gt;</span>false<span class="k">&lt;/</span><span class="i">GenerateAssemblyInfo</span><span class="k">&gt;</span>
+<span class="k">&lt;/</span><span class="i">PropertyGroup</span><span class="k">&gt;</span>
+</code></pre></td></tr></table>
+</section>
+<section >
+<h2>generation of nuget package throw nuget client</h2>
+<ul>
+<li><a href="https://github.com/NuGet/Home/issues/4491">How</a></li>
+</ul>
+</section>
+<section >
+<h2>msbuild tasks migration</h2>
+<ul>
+<li><a href="https://github.com/Microsoft/msbuild/issues/2746">msbuild issue</a></li>
+<li><a href="https://github.com/dotnet/project-system/issues/3011">project system issue</a></li>
+<li><a href="https://github.com/dotnet/sdk/issues/1780">dotnet issue</a></li>
+</ul>
+</section>
+<section >
+<h2>specifing not concrete version of package</h2>
+<ul>
+<li>what with package doesn't respect semantic versioning?</li>
+<li>System.Data.SqlLite.x64 ver <a href="https://www.nuget.org/packages/System.Data.SQLite.x64/">1.0.106</a> vs 1.0.76</li>
+</ul>
+</section>
+<section >
+<h2>teamcity and hardcoded paths to bin folder</h2>
+<ul>
+<li>buildsteps sometimes contains path to dlls</li>
+<li>after migration dlls goes not to the /bin folder but /bin/{targetFramework}</li>
+</ul>
+</section>
+<section >
+<h2>you have to update visual studio</h2>
+<ul>
+<li>minimum version to support all msbuild magic is 15.2</li>
+<li>update of all agents</li>
+</ul>
+</section>
+<section >
+<h2>resharper build</h2>
+</section>
+<section >
+<h2>what with web projects</h2>
+<img src="images/works.png" style="background: white;" width=1700 />
+</section>
+</section>
+<section >
+<section >
+<h2>package references instead of packages.config</h2>
+</section>
+<section >
+<h2>proces of migration</h2>
+<ul>
+<li>add to csproj</li>
+</ul>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="xml"><span class="k">&lt;</span><span class="i">PropertyGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">RestoreProjectStyle</span><span class="k">&gt;</span>PackageReference<span class="k">&lt;/</span><span class="i">RestoreProjectStyle</span><span class="k">&gt;</span>
+<span class="k">&lt;/</span><span class="i">PropertyGroup</span><span class="k">&gt;</span>
+</code></pre></td></tr></table>
+<ul>
+<li>delete packages.config</li>
+<li>reinstall all packages</li>
+</ul>
+</section>
+<section >
+<h2>what we have thanks to that</h2>
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
+<span class="l">2: </span>
+<span class="l">3: </span>
+<span class="l">4: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="xml"><span class="k">&lt;</span><span class="i">ItemGroup</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">PackageReference</span> <span class="o">Include</span><span class="k">="Ben.Demystifier"</span><span class="k">&gt;</span>
+    <span class="k">&lt;</span><span class="i">Version</span><span class="k">&gt;</span>0.0.5<span class="k">&lt;/</span><span class="i">Version</span><span class="k">&gt;</span>
+<span class="k">&lt;/</span><span class="i">PackageReference</span><span class="k">&gt;</span>
+</code></pre></td></tr></table>
+</section>
+</section>
+<section >
+<h2>thanks</h2>
+</section>
+
+
+        </div>
+    </div>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script>
+        // Add the nohighlight class and data-noescape attribute to code elements that have already been formatted by FSharp.Formatting
+        $('pre.highlighted code').addClass('nohighlight').attr('data-noescape', '');
+
+        // Full list of configuration options available here:
+        // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+
+            transition: 'default', // default/cube/page/concave/zoom/linear/fade/none
+
+            // Parallax scrolling
+            // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+            // parallaxBackgroundSize: '2100px 900px',
+
+            // Optional libraries used to extend on reveal.js
+            dependencies: [
+                { src: 'lib/js/classList.js', condition: function () { return !document.body.classList; } },
+                { src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                { src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } },
+                { src: 'plugin/zoom-js/zoom.js', async: true, condition: function () { return !!document.body.classList; } },
+                { src: 'plugin/notes/notes.js', async: true, condition: function () { return !!document.body.classList; } }
+            ]
+        });
+
+    </script>
+</body>
+</html>
+
